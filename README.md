@@ -44,6 +44,10 @@ The built-in AI mock returns fixed demonstration responses and works offline. To
 
 Use the Next.js `--port` CLI flag to change the port. Optional server settings are `APP_TIME_ZONE` (default `Africa/Johannesburg`), and `SECURE_COOKIES=1` when deployed over HTTPS. Keep provider keys in server-side configuration.
 
-## Evidence and AI use
+## AI tools used during development
 
-See [evidence](evidence/) for the ERD, page and API inventory, and demonstration captures. [Reflection](reflection.md) records the development trade-offs. OpenAI Codex (ChatGPT) was used for implementation, documentation, and verification. The application itself uses the fixed mock by default.
+- **OpenAI Codex (ChatGPT)** helped plan and implement the workflow, debug the Next.js and Neon integration, verify the API and browser screens, and prepare documentation and screenshot evidence.
+
+## Submission evidence
+
+See [evidence](evidence/) for the ERD, page and API inventory, and demonstration captures. [Reflection](reflection.md) records the development trade-offs.
