@@ -2,3 +2,5 @@
 36ae2d7 2026-11-25 Implement authenticated workflow API and AI confirmation
 2d60b5f 2026-11-25 Build responsive task workspace and review screens
 0643197 2026-11-25 Verify workflow and add submission evidence
+cd9332b 2026-11-25 Export Git history for submission
+8bf20b8 2026-11-25 Migrate Meridian database to Neon PostgreSQL
