@@ -1,0 +1,4 @@
+6c3db54 2026-11-25 Define workflow database and seed demonstration data
+36ae2d7 2026-11-25 Implement authenticated workflow API and AI confirmation
+2d60b5f 2026-11-25 Build responsive task workspace and review screens
+0643197 2026-11-25 Verify workflow and add submission evidence
