@@ -9,3 +9,5 @@ cfdb7f9 2026-11-25 Refresh submission Git history
 933ba8e 2026-11-25 Refresh workflow screenshots for the Next.js build
 f5bd1f3 2026-11-25 Update the submission history export
 dca1c0f 2026-11-25 Complete exam evidence for access control and browser routes
+9d90691 2026-11-25 Refresh final exam history export
+ca084ab 2026-11-25 Give AI development disclosure a dedicated heading
