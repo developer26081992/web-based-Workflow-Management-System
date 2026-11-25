@@ -37,6 +37,8 @@ assert.equal(initial.overdue.length,2);
 const fields = { title:'Verify regional handover',description:'Collect the outstanding delivery notes.', assignee:2,due_date:'2027-02-28',priority:'low' };
 await staff('tasks','POST',{...fields,due_date:'2027-02-29'},400);
 await staff('tasks','POST',{...fields,assignee:9999},400);
+await staff('tasks','POST',{...fields,assignee:2147483648},400);
+await staff('tasks','POST',{...fields,title:'Invalid\0title'},400);
 const { id } = await staff('tasks','POST',fields,201);
 const path = 'tasks/'+id;
 await staff(path,'PATCH',{...fields,title:'Verify regional handover edits'});

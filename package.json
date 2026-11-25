@@ -1,9 +1,15 @@
 {
   "name": "meridian-workflow",
   "private": true,
-  "engines": { "node": ">=24" },
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "start": "node --env-file-if-exists=.env server.mjs",
-    "seed": "node --env-file-if-exists=.env db/seed.mjs"
+    "seed": "node --env-file-if-exists=.env db/seed.mjs",
+    "migrate": "node --env-file-if-exists=.env db/migrate.mjs"
+  },
+  "dependencies": {
+    "pg": "8.23.1"
   }
 }

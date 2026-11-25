@@ -1,31 +1,38 @@
-import { DatabaseSync } from 'node:sqlite';
-import { mkdirSync, readFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import pg from 'pg';
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
 
-const file = resolve(process.env.DB_PATH || 'data/meridian.sqlite');
-mkdirSync(dirname(file), { recursive: true });
-export const db = new DatabaseSync(file);
-db.exec('PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000');
-export const one = (sql, ...args) => db.prepare(sql).get(...args);
-export const all = (sql, ...args) => db.prepare(sql).all(...args);
-export const run = (sql, ...args) => db.prepare(sql).run(...args);
-export function transaction(work) {
-  db.exec('BEGIN IMMEDIATE');
+if (!process.env.DATABASE_URL) throw new Error('Set DATABASE_URL in the server environment or .env.');
+const url = new URL(process.env.DATABASE_URL);
+if (url.hostname.endsWith('.neon.tech')) url.searchParams.set('sslmode','verify-full');
+const pool = new pg.Pool({
+  connectionString: url.toString(),
+  enableChannelBinding: true,
+  connectionTimeoutMillis: 15000
+});
+pool.on('error', error => console.error('Idle database connection error:',error.code ?? error.name));
+
+const current = new AsyncLocalStorage();
+export const run = (sql, ...args) => (current.getStore() ?? pool).query(sql,args);
+export const all = async (sql, ...args) => (await run(sql,...args)).rows;
+export const one = async (sql, ...args) => (await all(sql,...args))[0];
+export const close = () => pool.end();
+
+export async function transaction(work) {
+  const client = await pool.connect();
+  let discard = false;
   try {
-    const result = work();
-    db.exec('COMMIT');
+    await client.query('BEGIN');
+    const result = await current.run(client,work);
+    await client.query('COMMIT');
     return result;
   } catch (error) {
-    db.exec('ROLLBACK');
+    try { await client.query('ROLLBACK'); } catch { discard = true; }
     throw error;
+  } finally {
+    client.release(discard);
   }
 }
-transaction(() => {
-  if (!one('PRAGMA user_version').user_version) {
-    db.exec(readFileSync(new URL('schema.sql', import.meta.url), 'utf8'));
-  }
-});
 
 export function hashPassword(password, salt = randomBytes(16).toString('hex')) {
   return salt + ':' + scryptSync(password, salt, 64).toString('hex');

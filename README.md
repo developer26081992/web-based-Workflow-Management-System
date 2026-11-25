@@ -4,14 +4,22 @@ Meridian Consulting Group's internal task tracker. Built for WDE-40-02, candidat
 
 ## Run locally
 
-Install Node.js 24 or newer. From this folder run:
+Install Node.js 24 or newer. In the Neon Console, open **Connect** and copy the connection string for an empty database or a dedicated project branch. In this project folder, run:
 
 ```powershell
+npm.cmd ci
+if (!(Test-Path .env)) { Copy-Item .env.example .env }
+```
+
+Replace the example `DATABASE_URL` in `.env` with your Neon connection string. This file is ignored by Git. Then run:
+
+```powershell
+npm.cmd run migrate
 npm.cmd run seed
 npm.cmd start
 ```
 
-Open http://127.0.0.1:3000. On macOS or Linux, use `npm` in place of `npm.cmd`. There are no third-party runtime dependencies. SQLite is created automatically in `data/meridian.sqlite`. Run the seed command once against a fresh database. Use a different `DB_PATH` to create another demonstration database.
+Open http://127.0.0.1:3000. On macOS or Linux, use `npm` and `cp .env.example .env`. The migration can be run again safely. Run the seed command once on an empty project database. PostgreSQL connections to Neon use certificate verification.
 
 | Role | Email |
 |---|---|
@@ -30,11 +38,11 @@ All three sample users use the demo-only password `MeridianDemo2026!`. Public re
 
 ## Configuration and technology
 
-The backend uses Node HTTP, SQLite, scrypt password hashing, database-backed sessions and CSRF validation. The frontend uses HTML, CSS and JavaScript. The server uses prepared statements, and the browser renders user content as text.
+The backend uses Node HTTP, PostgreSQL on Neon via node-postgres, scrypt password hashing, database-backed sessions and CSRF validation. The frontend uses HTML, CSS and JavaScript. The server uses prepared statements, and the browser renders user content as text.
 
 The built-in AI mock returns fixed demonstration responses and works offline. To connect a centre-supplied model gateway, set `AI_URL` and optionally `AI_KEY` in the ignored server-side `.env` file. The gateway accepts a JSON POST with `action` (`summary` or `suggest`), `task` (`title` and `description`), and for summaries a `comments` array of up to 20 recent comment strings. It returns either `{"summary":"..."}` or `{"priority":"high","subtasks":["..."]}`. The server sends the key as a Bearer token. Requests time out after eight seconds. Confirmations expire after ten minutes or when a task changes, and update the priority and subtask list together.
 
-Optional settings are `PORT`, `HOST`, `DB_PATH`, `APP_TIME_ZONE` (default `Africa/Johannesburg`), and `SECURE_COOKIES=1` when deployed over HTTPS. Keep provider keys in server-side configuration.
+Optional settings are `PORT`, `HOST`, `APP_TIME_ZONE` (default `Africa/Johannesburg`), and `SECURE_COOKIES=1` when deployed over HTTPS. Keep provider keys in server-side configuration.
 
 ## Evidence and AI use
 
