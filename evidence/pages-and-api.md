@@ -2,16 +2,16 @@
 
 The browser uses hash routes. All signed-in users may see the dashboard, task list and details. Managers can decide reviews. Staff may edit and move tasks they created or are assigned, and may delete tasks they created.
 
-| Screen | Purpose |
-|---|---|
-| Sign in | Start a session with an email and password |
-| Register | Create a Staff account |
-| Dashboard | View counts for all four stages and open overdue work |
-| Tasks | Browse tasks and combine stage, assignee and priority filters |
-| New task | Set the task details and start it in To Do |
-| Task details | View or update work, leave comments, see history, move forward and access AI |
-| Edit task | Update title, description, assignee, due date and priority |
-| Review controls | Approve or reject a task in Review as a manager |
+| Screen | Browser route | Purpose |
+|---|---|---|
+| Sign in | `/#login` | Start a session with an email and password |
+| Register | `/#register` | Create a Staff account |
+| Dashboard | `/#dashboard` | View counts for all four stages and open overdue work |
+| Tasks | `/#tasks` | Browse tasks and combine stage, assignee and priority filters |
+| New task | `/#tasks/new` | Set the task details and start it in To Do |
+| Task details | `/#tasks/:id` | View or update work, leave comments, see history, move forward and access AI |
+| Edit task | `/#tasks/:id/edit` | Update title, description, assignee, due date and priority |
+| Review controls | `/#tasks/:id` for managers reviewing a task | Approve or reject a task in Review |
 
 | Method and route | Purpose |
 |---|---|
