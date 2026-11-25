@@ -4,3 +4,6 @@
 0643197 2026-11-25 Verify workflow and add submission evidence
 cd9332b 2026-11-25 Export Git history for submission
 8bf20b8 2026-11-25 Migrate Meridian database to Neon PostgreSQL
+cfdb7f9 2026-11-25 Refresh submission Git history
+79b4e3c 2026-11-25 Move Meridian Workflow to Next.js and Prisma on Neon
+933ba8e 2026-11-25 Refresh workflow screenshots for the Next.js build
