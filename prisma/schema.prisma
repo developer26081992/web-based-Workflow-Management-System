@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Role {
+  id    String @id
+  label String @unique
+  users User[]
+  @@map("roles")
+}
+
+model Stage {
+  id       String @id
+  label    String @unique
+  position Int    @unique
+  tasks    Task[]
+  departures Activity[] @relation("FromStage")
+  arrivals   Activity[] @relation("ToStage")
+  @@map("stages")
+}
+
+model User {
+  id            Int    @id @default(autoincrement())
+  name          String
+  email         String @unique
+  password_hash String
+  role          String
+  roleRecord    Role @relation(fields: [role], references: [id], onUpdate: NoAction)
+  assigned      Task[] @relation("Assignee")
+  created       Task[] @relation("Creator")
+  sessions      Session[]
+  comments      Comment[]
+  activity      Activity[]
+  @@map("users")
+}
+
+model Session {
+  token_hash String @id
+  user_id    Int?
+  csrf       String
+  expires_at BigInt
+  user       User? @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  @@index([expires_at], map: "sessions_expiry")
+  @@map("sessions")
+}
+
+model Task {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String
+  assignee     Int
+  creator      Int
+  due_date     DateTime @db.Date
+  priority     String
+  stage        String   @default("todo")
+  version      Int      @default(0)
+  deleted      Boolean  @default(false)
+  assignedUser User     @relation("Assignee", fields: [assignee], references: [id], onUpdate: NoAction)
+  createdUser  User     @relation("Creator", fields: [creator], references: [id], onUpdate: NoAction)
+  stageRecord  Stage    @relation(fields: [stage], references: [id], onUpdate: NoAction)
+  comments     Comment[]
+  activity     Activity[]
+  subtasks     Subtask[]
+  @@index([deleted, stage, assignee, priority], map: "tasks_filter")
+  @@map("tasks")
+}
+
+model Comment {
+  id         Int      @id @default(autoincrement())
+  task_id    Int
+  author_id  Int
+  body       String
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  task       Task     @relation(fields: [task_id], references: [id], onUpdate: NoAction)
+  author     User     @relation(fields: [author_id], references: [id], onUpdate: NoAction)
+  @@index([task_id, id], map: "comments_task")
+  @@map("comments")
+}
+
+model Activity {
+  id         Int      @id @default(autoincrement())
+  task_id    Int
+  actor_id   Int
+  action     String
+  from_stage String?
+  to_stage   String?
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  task       Task     @relation(fields: [task_id], references: [id], onUpdate: NoAction)
+  actor      User     @relation(fields: [actor_id], references: [id], onUpdate: NoAction)
+  previous   Stage?   @relation("FromStage", fields: [from_stage], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  next       Stage?   @relation("ToStage", fields: [to_stage], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  @@index([task_id, id], map: "activity_task")
+  @@map("activity")
+}
+
+model Subtask {
+  task_id  Int
+  position Int
+  title    String
+  task     Task @relation(fields: [task_id], references: [id], onUpdate: NoAction)
+  @@id([task_id, position])
+  @@map("subtasks")
+}

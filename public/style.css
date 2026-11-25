@@ -105,14 +105,11 @@ td { overflow-wrap: anywhere; }
 .field { display: grid; gap: 5px; font-weight: 650; min-width: 0; }
 input, select, textarea { background: var(--paper); color: var(--ink); border: 1px solid #bbb6cb; border-radius: 7px; padding: 10px; width: 100%; min-height: 44px; }
 textarea { resize: vertical; }
-.stack { display: grid; gap: 14px; }
 .stack > button { justify-self: start; }
-.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .editor { max-width: 740px; }
 .editor > .stack { margin: 0; }
 .back { display: inline-block; padding: 8px 0; margin-bottom: 9px; }
 .detail-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 14px; }
-.detail-column { display: grid; align-content: start; gap: 14px; min-width: 0; }
 .facts { margin: 0; display: flex; flex-wrap: wrap; gap: 10px 24px; }
 .facts dt { color: var(--muted); font-size: .83rem; }
 .facts dd { margin: 3px 0 0; font-weight: 650; }

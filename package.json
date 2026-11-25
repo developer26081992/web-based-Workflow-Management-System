@@ -5,11 +5,31 @@
     "node": ">=24"
   },
   "scripts": {
-    "start": "node --env-file-if-exists=.env server.mjs",
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "next build",
+    "start": "next start --hostname 127.0.0.1",
+    "postinstall": "prisma generate",
     "seed": "node --env-file-if-exists=.env db/seed.mjs",
     "migrate": "node --env-file-if-exists=.env db/migrate.mjs"
   },
   "dependencies": {
-    "pg": "8.23.1"
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
+    "@tailwindcss/postcss": "^4.3.5",
+    "@types/node": "^26.6.9",
+    "@types/react": "^19.3.1",
+    "@types/react-dom": "^19.3.0",
+    "bcryptjs": "^3.0.3",
+    "jose": "^6.2.18",
+    "lucide-react": "^1.80.0",
+    "next": "^16.4.6",
+    "pg": "8.23.1",
+    "postcss": "^8.5.33",
+    "prisma": "^7.10.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^7.0.2",
+    "zod": "^4.6.7"
   }
 }

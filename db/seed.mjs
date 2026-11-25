@@ -1,4 +1,5 @@
-import { close, one, run, transaction, hashPassword, today } from './database.mjs';
+import { close, one, run, transaction, today } from './database.mjs';
+import { hashPassword } from '../lib/password.mjs';
 
 try {
   await transaction(async () => {
@@ -11,7 +12,7 @@ try {
       ['Staff User 1','staff1@example.test','staff'],
       ['Staff User 2','staff2@example.test','staff']
     ]) {
-      const user = await one('INSERT INTO users(name,email,role,password_hash) VALUES ($1,$2,$3,$4) RETURNING id',name,email,role,hashPassword(password));
+      const user = await one('INSERT INTO users(name,email,role,password_hash) VALUES ($1,$2,$3,$4) RETURNING id',name,email,role,await hashPassword(password));
       users.push(user.id);
     }
 
