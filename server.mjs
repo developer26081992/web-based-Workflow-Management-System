@@ -222,6 +222,9 @@ async function api(req,res,url) {
   requireThat(authEntry || session?.user_id,401,'Sign in to continue.');
   if (mutation) requireThat(session && req.headers['x-csrf-token'] === session.csrf,403,'Refresh the page and try again.');
   const body = mutation ? await readBody(req) : {};
+  if (mutation) {
+    requireThat(getSession(req)?.token_hash === session.token_hash,403,'Your session changed. Refresh the page and try again.');
+  }
   if (authEntry) return authenticate(path,body,session,res);
   if (path === '/api/logout' && req.method === 'POST') return json(res,transaction(() => replaceSession(res,session)));
   const user = userById(session.user_id);
