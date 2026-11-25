@@ -9,7 +9,7 @@
 | 5 | [Manager decision controls](15-manager-review.png), [rejection and comment](16-rejection.png), [approval](17-approval.png), [dashboard](04-dashboard-desktop.png) |
 | 6 | [Summary](12-ai-summary.png), [suggestion preview](13-ai-suggestions.png), [confirmed subtasks](14-ai-confirmed.png) |
 | 7 | [Desktop dashboard](04-dashboard-desktop.png), [mobile dashboard](05-dashboard-mobile.png), [server validation feedback](18-validation.png), [server validation and ORM operations](../lib/api.mjs) |
-| 8 | [Git history](git-log.txt), [setup and AI disclosure](../README.md), [reflection draft](../reflection.md) |
+| 8 | [Git history](git-log.txt), [project setup and sample logins](../README.md), [AI tools used during development](../README.md#ai-tools-used-during-development), [reflection draft](../reflection.md) |
 
 [API verification](verify.mjs) exercises role enforcement, task changes, audit events and AI confirmation. Run it with `node evidence/verify.mjs` against a freshly migrated and seeded disposable PostgreSQL database. It creates a verification account and records reversible demo task changes and deletion.
 
